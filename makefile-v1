@@ -1,0 +1,16 @@
+C = gcc
+CFLAGS = -Iinclude
+OBJS = lib/add.o lib/sub.o
+STATIC_LIB = lib/libcal.a
+TARGET = main-v1
+all: $(TARGET)
+$(TARGET): $(STATIC_LIB) main.c
+	$(CC) $(CFLAGS) main.c $(STATIC_LIB) -o $@
+$(STATIC_LIB): $(OBJS)
+	ar rcs $@ $^
+lib/%.o: src/%.c
+	$(CC) $(CFLAGS) -c $< -o $@
+.PHONY: clean
+clean:
+	rm -f lib/*.o lib/*.a $(TARGET)
+
